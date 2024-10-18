@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class GranulesHomeopathiquesController extends AbstractController
 {
-    #[Route('/granules/homeopathiques')]
+    #[Route('/granules-homeopathiques', name: "homeopathie")]
     public function afficherGranulesHomeopathiques ()
     {
         return new Response(

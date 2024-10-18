@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class SymptomesController extends AbstractController
 {
-    #[Route('/symptomes')]
+    #[Route('/symptomes', name:"symptomes")]
     public function afficherSymptomes ()
     {
         return new Response(

@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class FavorisController extends AbstractController
 {
-    #[Route('/favoris', name: 'app_favoris')]
+    #[Route('/favoris', name: 'favoris')]
     //Action -> funcion -> methodes
     public function index(): Response
     {
