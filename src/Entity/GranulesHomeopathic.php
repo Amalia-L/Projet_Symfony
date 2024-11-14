@@ -27,9 +27,16 @@ class GranulesHomeopathic
     #[ORM\OneToMany(targetEntity: DetailRecipe::class, mappedBy: 'GranulesHomeopathic', orphanRemoval: true)]
     private Collection $detailRecipes;
 
+    /**
+     * @var Collection<int, CureHomeopathic>
+     */
+    #[ORM\OneToMany(targetEntity: CureHomeopathic::class, mappedBy: 'GranulesHomeopathic')]
+    private Collection $cureHomeopathics;
+
     public function __construct()
     {
         $this->detailRecipes = new ArrayCollection();
+        $this->cureHomeopathics = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -92,6 +99,36 @@ class GranulesHomeopathic
             // set the owning side to null (unless already changed)
             if ($detailRecipe->getGranulesHomeopathic() === $this) {
                 $detailRecipe->setGranulesHomeopathic(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CureHomeopathic>
+     */
+    public function getCureHomeopathics(): Collection
+    {
+        return $this->cureHomeopathics;
+    }
+
+    public function addCureHomeopathic(CureHomeopathic $cureHomeopathic): static
+    {
+        if (!$this->cureHomeopathics->contains($cureHomeopathic)) {
+            $this->cureHomeopathics->add($cureHomeopathic);
+            $cureHomeopathic->setGranulesHomeopathic($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCureHomeopathic(CureHomeopathic $cureHomeopathic): static
+    {
+        if ($this->cureHomeopathics->removeElement($cureHomeopathic)) {
+            // set the owning side to null (unless already changed)
+            if ($cureHomeopathic->getGranulesHomeopathic() === $this) {
+                $cureHomeopathic->setGranulesHomeopathic(null);
             }
         }
 

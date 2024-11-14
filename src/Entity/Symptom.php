@@ -30,9 +30,23 @@ class Symptom
     #[ORM\ManyToMany(targetEntity: Favorite::class, mappedBy: 'Symptom')]
     private Collection $favorites;
 
+    /**
+     * @var Collection<int, CureHomeopathic>
+     */
+    #[ORM\OneToMany(targetEntity: CureHomeopathic::class, mappedBy: 'Symptom')]
+    private Collection $cureHomeopathics;
+
+    /**
+     * @var Collection<int, CureEssentialOil>
+     */
+    #[ORM\OneToMany(targetEntity: CureEssentialOil::class, mappedBy: 'Symptom')]
+    private Collection $cureEssentialOil;
+
     public function __construct()
     {
         $this->favorites = new ArrayCollection();
+        $this->cureHomeopathics = new ArrayCollection();
+        $this->cureEssentialOil = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -105,6 +119,66 @@ class Symptom
     {
         if ($this->favorites->removeElement($favorite)) {
             $favorite->removeSymptom($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CureHomeopathic>
+     */
+    public function getCureHomeopathics(): Collection
+    {
+        return $this->cureHomeopathics;
+    }
+
+    public function addCureHomeopathic(CureHomeopathic $cureHomeopathic): static
+    {
+        if (!$this->cureHomeopathics->contains($cureHomeopathic)) {
+            $this->cureHomeopathics->add($cureHomeopathic);
+            $cureHomeopathic->setSymptom($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCureHomeopathic(CureHomeopathic $cureHomeopathic): static
+    {
+        if ($this->cureHomeopathics->removeElement($cureHomeopathic)) {
+            // set the owning side to null (unless already changed)
+            if ($cureHomeopathic->getSymptom() === $this) {
+                $cureHomeopathic->setSymptom(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CureEssentialOil>
+     */
+    public function getCureEssentialOil(): Collection
+    {
+        return $this->cureEssentialOil;
+    }
+
+    public function addCureEssentialOil(CureEssentialOil $cureEssentialOil): static
+    {
+        if (!$this->cureEssentialOil->contains($cureEssentialOil)) {
+            $this->cureEssentialOil->add($cureEssentialOil);
+            $cureEssentialOil->setSymptom($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCureEssentialOil(CureEssentialOil $cureEssentialOil): static
+    {
+        if ($this->cureEssentialOil->removeElement($cureEssentialOil)) {
+            // set the owning side to null (unless already changed)
+            if ($cureEssentialOil->getSymptom() === $this) {
+                $cureEssentialOil->setSymptom(null);
+            }
         }
 
         return $this;

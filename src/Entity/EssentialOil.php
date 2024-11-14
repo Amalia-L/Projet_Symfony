@@ -42,10 +42,17 @@ class EssentialOil
     #[ORM\ManyToMany(targetEntity: Favorite::class, mappedBy: 'EssentialOil')]
     private Collection $favorites;
 
+    /**
+     * @var Collection<int, CureEssentialOil>
+     */
+    #[ORM\OneToMany(targetEntity: CureEssentialOil::class, mappedBy: 'EssentialOil')]
+    private Collection $cureEssentialOil;
+
     public function __construct()
     {
         $this->detailRecipes = new ArrayCollection();
         $this->favorites = new ArrayCollection();
+        $this->cureEssentialOil = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -172,6 +179,36 @@ class EssentialOil
     {
         if ($this->favorites->removeElement($favorite)) {
             $favorite->removeEssentialOil($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CureEssentialOil>
+     */
+    public function getCureEssentialOil(): Collection
+    {
+        return $this->cureEssentialOil;
+    }
+
+    public function addCureEssentialOil(CureEssentialOil $cureEssentialOil): static
+    {
+        if (!$this->cureEssentialOil->contains($cureEssentialOil)) {
+            $this->cureEssentialOil->add($cureEssentialOil);
+            $cureEssentialOil->setEssentialOil($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCureEssentialOil(CureEssentialOil $cureEssentialOil): static
+    {
+        if ($this->cureEssentialOil->removeElement($cureEssentialOil)) {
+            // set the owning side to null (unless already changed)
+            if ($cureEssentialOil->getEssentialOil() === $this) {
+                $cureEssentialOil->setEssentialOil(null);
+            }
         }
 
         return $this;
