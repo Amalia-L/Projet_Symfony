@@ -36,9 +36,16 @@ class EssentialOil
     #[ORM\OneToMany(targetEntity: DetailRecipe::class, mappedBy: 'EssentialOil', orphanRemoval: true)]
     private Collection $detailRecipes;
 
+    /**
+     * @var Collection<int, Favorite>
+     */
+    #[ORM\ManyToMany(targetEntity: Favorite::class, mappedBy: 'EssentialOil')]
+    private Collection $favorites;
+
     public function __construct()
     {
         $this->detailRecipes = new ArrayCollection();
+        $this->favorites = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -138,6 +145,33 @@ class EssentialOil
             if ($detailRecipe->getEssentialOil() === $this) {
                 $detailRecipe->setEssentialOil(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Favorite>
+     */
+    public function getFavorites(): Collection
+    {
+        return $this->favorites;
+    }
+
+    public function addFavorite(Favorite $favorite): static
+    {
+        if (!$this->favorites->contains($favorite)) {
+            $this->favorites->add($favorite);
+            $favorite->addEssentialOil($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFavorite(Favorite $favorite): static
+    {
+        if ($this->favorites->removeElement($favorite)) {
+            $favorite->removeEssentialOil($this);
         }
 
         return $this;

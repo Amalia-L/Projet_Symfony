@@ -32,14 +32,14 @@ class Userfixtures extends Fixture
 
         }
             $i = 1;
-            $user = new User();
-            $user->setEmail("admin" .$i. "@gmail.com");
-            $user->setRoles(['ROLE_ADMIN']);
-            dd($user->getRoles());
+            $admin = new User();
+            $admin->setEmail("admin" .$i. "@gmail.com");
+            $admin->setRoles(['ROLE_ADMIN']);
+            //dd($user->getRoles());
             $hashedPassword = $this->passwordHasher->hashPassword($user, 'lepassword');
-            $user->setPassword($hashedPassword);
+            $admin->setPassword($hashedPassword);
             
-            $manager->persist($user);
+            $manager->persist($admin);
         
         $manager->flush();
     }
