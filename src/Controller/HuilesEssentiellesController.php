@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class HuilesEssentiellesController extends AbstractController
 {
-    #[Route('/huiles/essentielles', name:"huiles_essentielles")]
+    #[Route('/huiles-essentielles', name:"huiles_essentielles")]
     public function afficherHuilesEssentielles ()
     {
         return new Response(

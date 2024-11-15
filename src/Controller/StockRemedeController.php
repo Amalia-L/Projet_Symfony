@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class StockRemedeController extends AbstractController
 {
-    #[Route('/stock/remede', name: 'app_stock_remede')]
+    #[Route('/stock-remede', name: 'app_stock_remede')]
     public function index(): Response
     {
         return $this->render('stock_remede/index.html.twig', [
