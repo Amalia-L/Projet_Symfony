@@ -42,9 +42,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Favorite::class, mappedBy: 'User', orphanRemoval: true)]
     private Collection $favorites;
 
+    /**
+     * @var Collection<int, RemedyStock>
+     */
+    #[ORM\OneToMany(targetEntity: RemedyStock::class, mappedBy: 'user')]
+    private Collection $remedyStocks;
+
+    /**
+     * @var Collection<int, EssentialOilStock>
+     */
+    #[ORM\OneToMany(targetEntity: EssentialOilStock::class, mappedBy: 'User')]
+    private Collection $essentialOilStocks;
+
     public function __construct()
     {
         $this->favorites = new ArrayCollection();
+        $this->remedyStocks = new ArrayCollection();
+        $this->essentialOilStocks = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -146,6 +160,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($favorite->getUser() === $this) {
                 $favorite->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, RemedyStock>
+     */
+    public function getRemedyStocks(): Collection
+    {
+        return $this->remedyStocks;
+    }
+
+    public function addRemedyStock(RemedyStock $remedyStock): static
+    {
+        if (!$this->remedyStocks->contains($remedyStock)) {
+            $this->remedyStocks->add($remedyStock);
+            $remedyStock->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRemedyStock(RemedyStock $remedyStock): static
+    {
+        if ($this->remedyStocks->removeElement($remedyStock)) {
+            // set the owning side to null (unless already changed)
+            if ($remedyStock->getUser() === $this) {
+                $remedyStock->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, EssentialOilStock>
+     */
+    public function getEssentialOilStocks(): Collection
+    {
+        return $this->essentialOilStocks;
+    }
+
+    public function addEssentialOilStock(EssentialOilStock $essentialOilStock): static
+    {
+        if (!$this->essentialOilStocks->contains($essentialOilStock)) {
+            $this->essentialOilStocks->add($essentialOilStock);
+            $essentialOilStock->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEssentialOilStock(EssentialOilStock $essentialOilStock): static
+    {
+        if ($this->essentialOilStocks->removeElement($essentialOilStock)) {
+            // set the owning side to null (unless already changed)
+            if ($essentialOilStock->getUser() === $this) {
+                $essentialOilStock->setUser(null);
             }
         }
 

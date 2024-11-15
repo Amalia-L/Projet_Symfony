@@ -19,24 +19,25 @@ class Favorite
      * @var Collection<int, EssentialOil>
      */
     #[ORM\ManyToMany(targetEntity: EssentialOil::class, inversedBy: 'favorites')]
-    private Collection $EssentialOil;
+    private Collection $essentialOils;
 
     /**
      * @var Collection<int, Symptom>
      */
     #[ORM\ManyToMany(targetEntity: Symptom::class, inversedBy: 'favorites')]
-    private Collection $Symptom;
+    private Collection $symptoms;
 
     #[ORM\ManyToOne(inversedBy: 'favorites')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?User $User = null;
+    private ?User $user = null;
 
+    //Construct
     public function __construct()
     {
-        $this->EssentialOil = new ArrayCollection();
-        $this->Symptom = new ArrayCollection();
+        $this->essentialOils = new ArrayCollection();
+        $this->symptoms = new ArrayCollection();
     }
-
+    //getters/setters
     public function getId(): ?int
     {
         return $this->id;
@@ -54,21 +55,21 @@ class Favorite
      */
     public function getEssentialOil(): Collection
     {
-        return $this->EssentialOil;
+        return $this->essentialOils;
     }
 
     public function addEssentialOil(EssentialOil $essentialOil): static
     {
-        if (!$this->EssentialOil->contains($essentialOil)) {
-            $this->EssentialOil->add($essentialOil);
+        if (!$this->essentialOils->contains($essentialOil)) {
+            $this->essentialOils->add($essentialOil);
         }
 
         return $this;
     }
-
+   
     public function removeEssentialOil(EssentialOil $essentialOil): static
     {
-        $this->EssentialOil->removeElement($essentialOil);
+        $this->essentialOils->removeElement($essentialOil);
 
         return $this;
     }
@@ -76,15 +77,15 @@ class Favorite
     /**
      * @return Collection<int, Symptom>
      */
-    public function getSymptom(): Collection
+    public function getSymptoms(): Collection
     {
-        return $this->Symptom;
+        return $this->symptoms;
     }
 
     public function addSymptom(Symptom $symptom): static
     {
-        if (!$this->Symptom->contains($symptom)) {
-            $this->Symptom->add($symptom);
+        if (!$this->symptoms->contains($symptom)) {
+            $this->symptoms->add($symptom);
         }
 
         return $this;
@@ -92,19 +93,19 @@ class Favorite
 
     public function removeSymptom(Symptom $symptom): static
     {
-        $this->Symptom->removeElement($symptom);
+        $this->symptoms->removeElement($symptom);
 
         return $this;
     }
 
     public function getUser(): ?User
     {
-        return $this->User;
+        return $this->user;
     }
 
-    public function setUser(?User $User): static
+    public function setUser(?User $user): static
     {
-        $this->User = $User;
+        $this->user = $user;
 
         return $this;
     }

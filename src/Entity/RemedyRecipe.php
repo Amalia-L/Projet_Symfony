@@ -27,9 +27,16 @@ class RemedyRecipe
     #[ORM\OneToMany(targetEntity: DetailRecipe::class, mappedBy: 'RemedyRecipe')]
     private Collection $detailRecipes;
 
+    /**
+     * @var Collection<int, RemedyStock>
+     */
+    #[ORM\OneToMany(targetEntity: RemedyStock::class, mappedBy: 'Remedy')]
+    private Collection $remedyStocks;
+
     public function __construct()
     {
         $this->detailRecipes = new ArrayCollection();
+        $this->remedyStocks = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -97,4 +104,35 @@ class RemedyRecipe
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, RemedyStock>
+     */
+    public function getRemedyStocks(): Collection
+    {
+        return $this->remedyStocks;
+    }
+
+    public function addRemedyStock(RemedyStock $remedyStock): static
+    {
+        if (!$this->remedyStocks->contains($remedyStock)) {
+            $this->remedyStocks->add($remedyStock);
+            $remedyStock->setRemedyRecipe($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRemedyStock(RemedyStock $remedyStock): static
+    {
+        if ($this->remedyStocks->removeElement($remedyStock)) {
+            // set the owning side to null (unless already changed)
+            if ($remedyStock->getRemedyRecipe() === $this) {
+                $remedyStock->setRemedyRecipe(null);
+            }
+        }
+
+        return $this;
+    }
+
 }
