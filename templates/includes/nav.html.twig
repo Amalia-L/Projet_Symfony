@@ -1,25 +1,23 @@
 {# navigation pour toutes les pages #}
 <nav>
     {# lien sans connexion #}
-    <a href= ""> Huiles Essentielles</a>
-    <a href=""> Homeopathie</a>
+    <a href= "{{ path ('accueil')}}"> Accueil</a>
+    <a href= "{{ path ('oil.index')}}"> Huiles Essentielles</a>
+    <a href= "{{ path ('homeopathie.index')}}"> Homeopathie</a>
             
     {# lien pour l'admin #}
     {% if is_granted ('ROLE_ADMIN') %}
-        <a href=""> Ajouts Huiles Essentielles</a>
-        <a href=""> Ajout Symptômes </a>
-        <a href=""> Ajout Homeoathie</a>
-        <a href= ""> Gestion des stocks</a>
+        <a href= "{{ path ('')}}"> Gestion des stocks</a>
     {% endif %}
             
     {# et toutes les options dispo uniquement avec connexion#}
     {% if app.user %}
-        <a href= ""> Symptômes</a>
-        <a href= ""> Favoris</a>
+        <a href= "{{ path ('symptomes.index')}}"> Symptômes</a>
+        <a href= "{{ path ('favoris.index')}}"> Favoris</a>
         Connecté: {{app.user.email}}
-        <a href="{{ path ('app_logout') }}">Logout</a>
+        <a href= "{{ path ('app_logout')}}">Logout</a>
     {% else %}
         Pas connecté
-        <a href="{{ path ('app_login') }}">Login</a>
+        <a href="{{ path ('app_login')}}">Login</a>
     {% endif %}
 </nav>

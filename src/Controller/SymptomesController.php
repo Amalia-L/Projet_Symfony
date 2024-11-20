@@ -2,25 +2,19 @@
 
 namespace App\Controller;
 
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
 
 class SymptomesController extends AbstractController
 {
-    #[Route('/symptomes', name:"symptomes")]
-    public function afficherSymptomes ()
+    #[IsGranted('ROLE_USER')]
+    #[Route('/symptomes', name:"symptomes.index")]
+    public function index (Request $request): Response
     {
-        return new Response(
-            '<html>
-                <body>
-                    <ul>
-                        <li>Ahibero</li>
-                        <li>Archillée millefeuille</li>
-                        <li>Ail</li>
-                    </ul>
-                </body>
-            </html>'
-        );
+        return $this->render('symptom/index.html.twig');
     }
 }
